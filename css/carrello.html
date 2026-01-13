@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Carrello – Country Side</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d6a4f">
+</head>
+<div id="ordine-inviato" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>✅ Ordine inviato</h3>
+    <p>
+      Il tuo ordine è stato inviato.<br>
+      Attendi la conferma dal locale.
+    </p>
+
+    <a href="index.html" class="btn primary">
+      Torna alla Home
+    </a>
+  </div>
+</div>
+
+<body>
+
+<div class="container">
+  <h2>🛒 Il tuo ordine</h2>
+
+  <div id="lista-ordini"></div>
+
+  <p><strong>Totale: €<span id="totale"></span></strong></p>
+
+  <input type="text" id="nome" class="input" placeholder="Il tuo nome">
+  <input type="time" id="orario" class="input">
+
+  <textarea id="note" class="input" placeholder="Note (facoltative)"></textarea>
+<h3>📋 Anteprima ordine</h3>
+
+<div class="preview-box" id="anteprima-messaggio">
+  Caricamento anteprima...
+</div>
+
+  <button class="btn primary" onclick="inviaWhatsApp()">
+    Invia ordine su WhatsApp 📲
+  </button>
+
+  <a href="menu.html" class="btn secondary">⬅ Torna al menù</a>
+</div>
+<a href="menu.html" class="btn secondary back-button">
+  ⬅ Torna al menù
+</a>
+
+<!-- JS -->
+<script src="js/carrello.js"></script>
+
+
+</body>
+</html>
