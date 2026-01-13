@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ordina dal Tavolo – Country Side</title>
+
+  <!-- Font western -->
+  <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d6a4f">
+</head>
+<body>
+
+<div class="container">
+  <h2 class="title-western">🍽️ Ordina dal Tavolo</h2>
+
+  <p class="subtitle">
+    Inserisci il numero del tavolo e dei commensali per iniziare l’ordine
+  </p>
+<input
+  type="number"
+  id="commensali"
+  class="input"
+  placeholder="Numero commensali"
+  min="1"
+>
+
+  <input
+    type="number"
+    id="tavolo"
+    class="input"
+    placeholder="Numero tavolo"
+    min="1"
+  >
+
+  <div class="home-actions">
+    <button class="btn primary" onclick="vaiAlMenu()">
+      Vai al menù 🍔
+    </button>
+
+    <a href="index.html" class="btn secondary">
+      ⬅ Torna alla Home
+    </a>
+  </div>
+</div>
+
+<script src="js/ordina.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
