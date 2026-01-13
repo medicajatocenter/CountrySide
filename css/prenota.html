@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Prenota Tavolo – Country Side</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d6a4f">
+</head>
+<body>
+
+<div class="container">
+  <h2>🪑 Richiesta Prenotazione Tavolo</h2>
+
+  <p class="subtitle">
+    La prenotazione sarà confermata dal locale tramite WhatsApp.
+  </p>
+
+  <input type="text" id="nome" class="input" placeholder="Il tuo nome">
+  <input type="number" id="persone" class="input" placeholder="Numero persone">
+  <input type="time" id="orario" class="input">
+
+  <textarea id="note" class="input" placeholder="Note (facoltative)"></textarea>
+
+  <button class="btn primary" onclick="inviaPrenotazione()">
+    Invia richiesta 📲
+  </button>
+
+  <a href="index.html" class="btn secondary">⬅ Torna alla Home</a>
+</div>
+
+<!-- JS -->
+<script src="js/prenota.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
