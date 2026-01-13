@@ -10,16 +10,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/CountrySide/css/style.css">
 
   <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/CountrySide/manifest.json">
   <meta name="theme-color" content="#2d6a4f">
 </head>
 <body>
 
 <div class="container">
-  <img src="assets/countryside_logo.png" class="logo" alt="Country Side logo">
+  <img src="/CountrySide/assets/countryside_logo.png" class="logo" alt="Country Side logo">
 
   <h1 class="title-western">Country Side</h1>
 
@@ -35,10 +35,9 @@
       Ordina a domicilio 🏠
     </a>
 
-   <a href="menu.html?mode=tavolo&fresh=1" class="btn secondary">
-  Ordina dal tavolo 🍽️
-</a>
-
+    <a href="menu.html?mode=tavolo&fresh=1" class="btn secondary">
+      Ordina dal tavolo 🍽️
+    </a>
 
     <!-- PRENOTAZIONE -->
     <a href="prenota.html" class="btn secondary">
@@ -56,6 +55,20 @@
   </div>
 </div>
 
-<script src="js/app.js"></script>
+<!-- JS app -->
+<script src="/CountrySide/js/app.js"></script>
+
+<!-- PWA: Service Worker -->
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/CountrySide/service-worker.js")
+      .then(reg => console.log("Service Worker registrato", reg))
+      .catch(err => console.error("Service Worker NON registrato", err));
+  });
+}
+</script>
+
 </body>
 </html>
