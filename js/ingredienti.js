@@ -249,5 +249,28 @@ const INGREDIENTI = {
     "Crostini",
     "Salsa ranch",
     "Avocado"
-  ]
+  ],
+   /* =====================
+     TAGLIERI
+     ===================== */
+  tagliere_country_side: [
+    "600g Ribs di maiale (costolette)",
+    "Salsiccia con provola affumicata e scagkie di bacon",
+    "Bacon a fette",
+    "Alette speziate o piccanti",
+    "Fusi di pollo o arrosticini",
+    "Patatine",
+    "Insalata",
+  ],
+  tagliere_mix_fritto: [
+    "Patate",
+    "Alette speziate o piccanti",
+    "Mozzarelline panate",
+    "Nuggets di pollo",
+    "Anellio di cipolla",
+    "Wurstell",
+    "Patate con colata di salsa cheddar e scaglie di bacon",
+    "Piadina o panino",
+    ]
 };
+
