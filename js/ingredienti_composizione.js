@@ -37,7 +37,7 @@ const INGREDIENTI_COMPOSIZIONE = {
      ===================== */
   burger_classico: {
     nome: "Burger classico",
-  img: "assets/prodotti/burger_classico.jpg",
+  img: "assets/prodotti/Burger_classico.jpg",
     standard: ["Hamburger", "Cetrioli", "Cheddar", "Ketchup", "Maionese", "Senape"],
     extra: [
       { nome: "Bacon", prezzo: 1.00 },
@@ -213,3 +213,4 @@ const INGREDIENTI_COMPOSIZIONE = {
   }
 
 };
+
