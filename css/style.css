@@ -304,4 +304,20 @@ textarea {
 .home .btn {
   text-align: center;
 }
+/* =========================
+   HOME – FIX DEFINITIVO
+   ========================= */
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.home-actions .btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
 
