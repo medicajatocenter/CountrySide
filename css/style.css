@@ -219,3 +219,69 @@ h1, h2, h3 {
   color: #222;
   font-weight: bold;
 }
+/* =========================
+   PRENOTAZIONE – UI REFINEMENT
+   ========================= */
+
+.prenota-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Label più leggibili */
+.prenota-form label {
+  font-size: 14px;
+  color: #cfcfcf;
+  margin-bottom: 4px;
+}
+
+/* Input uniformi */
+.prenota-form input,
+.prenota-form textarea {
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+.prenota-form input::placeholder,
+.prenota-form textarea::placeholder {
+  color: #9a9a9a;
+}
+
+/* Data + Ora su stessa riga */
+.prenota-row {
+  display: flex;
+  gap: 10px;
+}
+
+.prenota-row > div {
+  flex: 1;
+}
+
+/* Bottone WhatsApp più elegante */
+.btn.primary {
+  margin-top: 18px;
+  font-size: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(230,57,70,0.35);
+}
+
+/* Bottone torna home meno invadente */
+.back-button,
+a.btn.secondary {
+  margin-top: 10px;
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+/* Titolo */
+.title-western {
+  margin-bottom: 22px;
+}
+
+/* Card più staccata dallo sfondo */
+.card {
+  background: #1f1f1f;
+  border: 1px solid #2e2e2e;
+}
