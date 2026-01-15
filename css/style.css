@@ -288,3 +288,20 @@ textarea {
   color: #333;
   margin-bottom: 16px;
 }
+/* =========================
+   HOME – ALLINEAMENTO
+   ========================= */
+
+.home {
+  text-align: center;
+}
+
+.home .logo {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home .btn {
+  text-align: center;
+}
+
