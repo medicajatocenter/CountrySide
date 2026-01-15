@@ -3,7 +3,7 @@ let prodottoInComposizione = null;
 /* =========================
    AVVIO COMPOSIZIONE
    ========================= */
-function gestisciAggiunta(id, nome, prezzo, composizione, menuPlus) {
+function gestisciAggiunta(id, nome, prezzo, composizione, menuPlus = null) {
   if (!composizione) {
     addItem(id, nome, prezzo);
     return;
@@ -18,7 +18,6 @@ function gestisciAggiunta(id, nome, prezzo, composizione, menuPlus) {
    ========================= */
 function apriComposizione() {
   const dati = INGREDIENTI_COMPOSIZIONE[prodottoInComposizione.id];
-
   if (!dati) {
     addItem(
       prodottoInComposizione.id,
@@ -31,12 +30,13 @@ function apriComposizione() {
   let html = `
     <div class="modal">
       <div class="modal-content">
-        <h3>${dati.nome}</h3>
+        <h3>${prodottoInComposizione.nome}</h3>
+
         ${dati.img ? `<img src="${dati.img}" class="modal-img">` : ""}
+
         <p><strong>Ingredienti</strong></p>
   `;
 
-  /* INGREDIENTI STANDARD */
   dati.standard.forEach(ing => {
     html += `
       <label>
@@ -46,7 +46,6 @@ function apriComposizione() {
     `;
   });
 
-  /* EXTRA */
   if (dati.extra?.length) {
     html += `<p><strong>Aggiunte</strong></p>`;
     dati.extra.forEach(extra => {
@@ -59,46 +58,29 @@ function apriComposizione() {
     });
   }
 
-  /* MENU PLUS */
   if (prodottoInComposizione.menuPlus?.attivo) {
     html += `
       <hr>
-      <label class="menu-plus">
+      <label>
         <input type="checkbox" id="menuPlusCheck">
         ${prodottoInComposizione.menuPlus.nome}
       </label>
-
-      <div id="menuPlusBibitaBox" style="display:none; margin-top:10px;">
-        <p><strong>Scegli la bibita:</strong></p>
-        ${MENU_PLUS_BIBITE.map(b => `
-          <label>
-            <input type="radio" name="menuPlusBibita" value="${b.nome}">
-            ${b.nome}
-          </label><br>
-        `).join("")}
-      </div>
     `;
   }
 
   html += `
-        <br>
-        <button onclick="confermaComposizione()">Aggiungi</button>
-        <button onclick="chiudiComposizione()">Annulla</button>
+        <br><br>
+        <button class="btn primary" id="btnConferma">Aggiungi</button>
+        <button class="btn secondary" onclick="chiudiComposizione()">Annulla</button>
       </div>
     </div>
   `;
 
   document.body.insertAdjacentHTML("beforeend", html);
 
-  /* MOSTRA BIBITE SE MENU SPUNTATO */
-  const check = document.getElementById("menuPlusCheck");
-  const box = document.getElementById("menuPlusBibitaBox");
-
-  if (check && box) {
-    check.addEventListener("change", () => {
-      box.style.display = check.checked ? "block" : "none";
-    });
-  }
+  // 🔥 bind sicuro
+  document.getElementById("btnConferma")
+    .addEventListener("click", confermaComposizione);
 }
 
 /* =========================
@@ -106,7 +88,7 @@ function apriComposizione() {
    ========================= */
 function confermaComposizione() {
   const modal = document.querySelector(".modal");
-  if (!modal) return;
+  if (!modal || !prodottoInComposizione) return;
 
   let extraPrezzo = 0;
   let note = [];
@@ -121,20 +103,12 @@ function confermaComposizione() {
     }
   });
 
-  /* MENU PLUS */
-  const menuCheck = document.getElementById("menuPlusCheck");
-  if (menuCheck && menuCheck.checked) {
-    const bibita = modal.querySelector('input[name="menuPlusBibita"]:checked');
-    if (!bibita) {
-      alert("Seleziona una bibita per il Menu");
-      return;
-    }
-
+  if (document.getElementById("menuPlusCheck")?.checked) {
     extraPrezzo += prodottoInComposizione.menuPlus.prezzo;
-    note.push("Menu + patatine");
-    note.push("Bibita: " + bibita.value);
+    note.push("Menu: patatine + bibita");
   }
 
+  // 🔥 ID VARIANTE UNIVOCO
   const variantId = prodottoInComposizione.id + "_" + Date.now();
 
   addItem(
@@ -143,6 +117,7 @@ function confermaComposizione() {
     prodottoInComposizione.prezzo + extraPrezzo
   );
 
+  // salva note
   carrello[variantId].note = note;
 
   chiudiComposizione();
@@ -153,4 +128,5 @@ function confermaComposizione() {
    ========================= */
 function chiudiComposizione() {
   document.querySelector(".modal")?.remove();
+  prodottoInComposizione = null;
 }
