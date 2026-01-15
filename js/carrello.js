@@ -59,6 +59,30 @@ function vaiCarrello() {
 }
 
 /* =========================
+   NOTE DA TEXTAREA (CARRELLO)
+   ========================= */
+
+function salvaNoteDaTextarea() {
+  const textareas = document.querySelectorAll(".note-prodotto");
+
+  textareas.forEach(ta => {
+    const id = ta.dataset.id;
+    const testo = ta.value.trim();
+
+    if (id && testo && carrello[id]) {
+      if (!Array.isArray(carrello[id].note)) {
+        carrello[id].note = [];
+      }
+
+      // evita duplicazioni
+      if (!carrello[id].note.includes(testo)) {
+        carrello[id].note.push(testo);
+      }
+    }
+  });
+}
+
+/* =========================
    ANTEPRIMA ORDINE
    ========================= */
 
@@ -78,16 +102,14 @@ function generaAnteprima() {
     return;
   }
 
-  let testo = "🍔 ORDINE COUNTRY SIDE\n";
+  let testo = "🍔 ORDINE COUNTRY SIDE\n\n";
 
-  /* HEADER DINAMICO */
   if (mode === "tavolo") {
     testo += `🍽️ Tavolo ${tavolo} – ${commensali} coperti\n\n`;
   } else {
     testo += "🏠 Ordine a domicilio / asporto\n\n";
   }
 
-  /* PRODOTTI */
   Object.values(carrelloSalvato).forEach(item => {
     testo += `• ${item.nome} x${item.qty}\n`;
 
@@ -98,7 +120,6 @@ function generaAnteprima() {
     }
   });
 
-  /* COPERTO SOLO SE TAVOLO */
   let coperto = 0;
   if (mode === "tavolo" && commensali > 0) {
     coperto = commensali * 2;
@@ -116,6 +137,17 @@ function generaAnteprima() {
    ========================= */
 
 function inviaWhatsApp() {
+
+  // 🔥 recupera le note scritte a mano
+  salvaNoteDaTextarea();
+
+  // aggiorna localStorage
+  localStorage.setItem("carrello", JSON.stringify(carrello));
+  localStorage.setItem("totale", totale.toFixed(2));
+
+  // rigenera anteprima
+  generaAnteprima();
+
   const box = document.getElementById("anteprima-messaggio");
   if (!box || !box.textContent) {
     alert("Errore nella generazione dell’ordine");
@@ -138,4 +170,12 @@ function inviaWhatsApp() {
    AVVIO
    ========================= */
 
-document.addEventListener("DOMContentLoaded", generaAnteprima);
+document.addEventListener("DOMContentLoaded", () => {
+  const salvato = localStorage.getItem("carrello");
+  const tot = localStorage.getItem("totale");
+
+  if (salvato) carrello = JSON.parse(salvato);
+  if (tot) totale = parseFloat(tot);
+
+  generaAnteprima();
+});
