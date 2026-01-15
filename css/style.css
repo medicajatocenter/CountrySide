@@ -287,4 +287,25 @@ h1, h2 {
   min-height: 80px;
   resize: vertical;
 }
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #2d6a4f;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
 
