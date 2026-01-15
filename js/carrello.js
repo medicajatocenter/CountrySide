@@ -59,7 +59,7 @@ function vaiCarrello() {
 }
 
 /* =========================
-   NOTE DA TEXTAREA (CARRELLO)
+   NOTE DA TEXTAREA
    ========================= */
 
 function salvaNoteDaTextarea() {
@@ -74,7 +74,6 @@ function salvaNoteDaTextarea() {
         carrello[id].note = [];
       }
 
-      // evita duplicazioni
       if (!carrello[id].note.includes(testo)) {
         carrello[id].note.push(testo);
       }
@@ -93,7 +92,7 @@ function generaAnteprima() {
   const carrelloSalvato = JSON.parse(localStorage.getItem("carrello"));
   const totaleSalvato = parseFloat(localStorage.getItem("totale") || 0);
 
-  const mode = localStorage.getItem("ordine_mode"); // domicilio | tavolo
+  const mode = localStorage.getItem("ordine_mode");
   const tavolo = localStorage.getItem("tavolo");
   const commensali = parseInt(localStorage.getItem("commensali") || 0);
 
@@ -112,7 +111,6 @@ function generaAnteprima() {
 
   Object.values(carrelloSalvato).forEach(item => {
     testo += `• ${item.nome} x${item.qty}\n`;
-
     if (item.note && item.note.length > 0) {
       item.note.forEach(n => {
         testo += `   - ${n}\n`;
@@ -133,19 +131,19 @@ function generaAnteprima() {
 }
 
 /* =========================
-   INVIO WHATSAPP
+   INVIO WHATSAPP + RESET
    ========================= */
 
 function inviaWhatsApp() {
 
-  // 🔥 recupera le note scritte a mano
+  // 1️⃣ salva note manuali
   salvaNoteDaTextarea();
 
-  // aggiorna localStorage
+  // 2️⃣ aggiorna storage
   localStorage.setItem("carrello", JSON.stringify(carrello));
   localStorage.setItem("totale", totale.toFixed(2));
 
-  // rigenera anteprima
+  // 3️⃣ genera anteprima
   generaAnteprima();
 
   const box = document.getElementById("anteprima-messaggio");
@@ -155,15 +153,25 @@ function inviaWhatsApp() {
   }
 
   const numero = "393314794226"; // senza +
-  const messaggio = box.textContent;
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(messaggio)}`;
-
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(box.textContent)}`;
   window.open(url, "_blank");
 
+  // 4️⃣ conferma visiva
   const conferma = document.getElementById("ordine-inviato");
   if (conferma) {
     conferma.style.display = "flex";
   }
+
+  // 🔥 5️⃣ RESET COMPLETO CARRELLO
+  localStorage.removeItem("carrello");
+  localStorage.removeItem("totale");
+
+  carrello = {};
+  totale = 0;
+
+  // aggiorna UI se presente
+  const totaleEl = document.getElementById("totale");
+  if (totaleEl) totaleEl.innerText = "0.00";
 }
 
 /* =========================
