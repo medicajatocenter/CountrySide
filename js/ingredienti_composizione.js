@@ -215,17 +215,18 @@ const INGREDIENTI_COMPOSIZIONE = {
      TAGLIERI
      ===================== */
   tagliere_countryside: {
-    standard: ["600g Ribs di maiale (costolette)", "salsiccia con provola affumicata e scaglie di bacon", "bacon a fette", "alette speziate o piccanti", "fusi di pollo o arrosticini", "patatine", "insalata"],
+    standard: ["600g Ribs di maiale (costolette)", "Salsiccia con provola affumicata e scaglie di bacon", "Bacon a fette", "Alette speziate o piccanti", "Fusi di pollo o arrosticini", "Patatine", "Insalata"],
     extra: [
-      { nome: "Extra pollo", prezzo: 2.00 }
+      { nome: "Extra", prezzo: 2.00 }
     ]
   },
    tagliere_mix_fritto: {
-    standard: ["Patate", "mozzarelline panate", "nuggets di pollo", "alette speziate o piccanti", "anelli di cipolla", "patatine", "Wurstel", "patatine con colata di salsa cheddare scaglie di bacon", "piadina o panino"],
+    standard: ["Patate", "Mozzarelline panate", "Nuggets di pollo", "Alette speziate o piccanti", "Anelli di cipolla", "Aatatine", "Wurstel", "Patatine con colata di salsa cheddare scaglie di bacon", "Piadina o panino"],
     extra: [
-      { nome: "Extra pollo", prezzo: 2.00 }
+      { nome: "Extra", prezzo: 2.00 }
     ]
   }
 };
+
 
 
