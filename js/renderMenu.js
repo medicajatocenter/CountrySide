@@ -88,14 +88,20 @@ if (infoBox) {
         btn.textContent = "Aggiungi";
 
         btn.addEventListener("click", () => {
-          gestisciAggiunta(
-            item.id,
-            item.nome,
-            item.prezzo,
-            item.composizione,
-            item.menuPlus || null
-          );
-        });
+  gestisciAggiunta(
+    item.id,
+    item.nome,
+    item.prezzo,
+    item.composizione,
+    item.composizione === true
+      ? {
+          attivo: true,
+          nome: "Menu + patatine e bibita (+2,50€)",
+          prezzo: 2.50
+        }
+      : null
+  );
+});
 
         div.querySelector(".menu-action").appendChild(btn);
         content.appendChild(div);
@@ -107,3 +113,4 @@ if (infoBox) {
     container.appendChild(wrapper);
   });
 });
+
