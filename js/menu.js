@@ -121,8 +121,8 @@ const MENU = {
     id: "taglieri",
     nome: "Taglieri",
     items: [
-      { id: "tagliere_country_side", nome: "Tagliere Country Side", prezzo: 20.00, composizione: true },
-      { id: "tagliere_mix_fritto", nome: "Tagliere Mix Fritto", prezzo: 18.00, composizione: true }
+      { id: "tagliere_country_side", nome: "Tagliere Country Side", prezzo: 20.00, composizione: false },
+      { id: "tagliere_mix_fritto", nome: "Tagliere Mix Fritto", prezzo: 18.00, composizione: false }
     ]
   },
 
@@ -141,4 +141,5 @@ const MENU = {
   }
 
 };
+
 
