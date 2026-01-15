@@ -1,5 +1,5 @@
 /* =========================
-   BASE GENERALE (iOS FEEL)
+   BASE GENERALE
    ========================= */
 
 body {
@@ -10,49 +10,55 @@ body {
   color: #1c1c1e;
 }
 
-h1, h2 {
-  color: #1c1c1e;
+h1, h2, h3 {
+  margin-top: 0;
   font-weight: 600;
   letter-spacing: -0.3px;
-  margin-top: 0;
 }
 
 /* =========================
    CONTENITORE
    ========================= */
+
 .container {
   max-width: 430px;
   margin: auto;
   padding: 20px 16px 32px;
-  text-align: center; /* 👈 QUESTO È IL PUNTO CHIAVE */
 }
 
-
 /* =========================
-   LOGO & TESTI HOME
+   LOGO & HOME
    ========================= */
 
 .logo {
   width: 150px;
-  margin: 20px auto 10px;
+  margin: 20px auto 12px;
   display: block;
+}
+
+.title-western {
+  font-family: 'Rye', serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: #2d6a4f;
+  text-align: center;
+  margin-bottom: 12px;
 }
 
 .subtitle {
   font-size: 15px;
   color: #6e6e73;
-  margin-bottom: 28px;
   text-align: center;
+  margin-bottom: 28px;
 }
 
 /* =========================
-   BOTTONI (iOS STYLE)
+   BOTTONI
    ========================= */
 
 .btn {
   width: 100%;
   padding: 16px;
-  margin: 12px 0;
   font-size: 17px;
   font-weight: 600;
   border: none;
@@ -62,100 +68,119 @@ h1, h2 {
 
 .primary {
   background: #e63946;
-  color: #ffffff;
+  color: #fff;
 }
 
 .secondary {
-  background: #ffffff;
+  background: #fff;
   color: #1c1c1e;
+  border: 1px solid #ddd;
+}
+
+.add-btn {
+  background: #2d6a4f;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* =========================
    INPUT & TEXTAREA
    ========================= */
 
-.input {
+.input,
+textarea {
   width: 100%;
-  padding: 15px;
+  padding: 14px;
   margin: 10px 0;
   font-size: 16px;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid #d1d1d6;
   background: #ffffff;
   box-sizing: border-box;
 }
 
 /* =========================
-   MENU - CARD PRODOTTO
+   CATEGORIE MENU (ACCORDION)
    ========================= */
 
-.menu-item {
+.menu-category {
+  margin-bottom: 18px;
+}
+
+.category-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 14px;
-  background: #ffffff;
-  padding: 14px;
-  margin: 14px 0;
-  border-radius: 18px;
+  padding: 14px 16px;
+  background: #2d6a4f;
+  color: white;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.category-header .arrow {
+  font-size: 18px;
+}
+
+.category-content {
+  margin-top: 10px;
 }
 
 /* =========================
-   IMMAGINI PRODOTTO
+   CARD PRODOTTO
    ========================= */
+
+.menu-item {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.menu-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
 
 .menu-img {
   width: 76px;
   height: 76px;
   object-fit: cover;
   border-radius: 14px;
+  flex-shrink: 0;
 }
-
-/* =========================
-   INFO PRODOTTO
-   ========================= */
 
 .menu-info {
   flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 .menu-info .nome {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 2px;
 }
 
-.menu-info .prezzo {
-  font-size: 14px;
+.ingredienti {
+  font-size: 13px;
   color: #6e6e73;
+  margin-top: 4px;
 }
 
-/* =========================
-   CONTROLLI + / –
-   ========================= */
-
-.controls {
+.menu-action {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
 
-.controls button {
-  width: 42px;
-  height: 42px;
-  font-size: 22px;
-  border: none;
-  border-radius: 50%;
-  background: #2d6a4f; /* verde Country Side */
-  color: white;
-  cursor: pointer;
-}
-
-.controls span {
-  min-width: 22px;
-  text-align: center;
-  font-size: 16px;
+.menu-action .prezzo {
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -164,39 +189,17 @@ h1, h2 {
    ========================= */
 
 .cart {
-  margin: 24px 0;
+  margin: 28px 0;
   padding: 18px;
   background: #ffffff;
   border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
 /* =========================
-   INFO TESTUALI
+   MODAL COMPOSIZIONE
    ========================= */
 
-.info {
-  margin-top: 24px;
-  font-size: 14px;
-  color: #6e6e73;
-  text-align: center;
-}
-.phone-link {
-  color: #1c1c1e;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.phone-link:active {
-  opacity: 0.6;
-}
-/* Titolo in stile western */
-.title-western {
-  font-family: 'Rye', serif;
-  font-size: 28px;
-  letter-spacing: 1px;
-  color: #2d6a4f;
-  margin-bottom: 16px;
-}
 .modal {
   position: fixed;
   inset: 0;
@@ -210,102 +213,78 @@ h1, h2 {
 .modal-content {
   background: white;
   padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-}/* HOME – pulsanti ordinati */
-.home-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin: 24px 0;
+  border-radius: 16px;
+  width: 92%;
+  max-width: 420px;
 }
 
-.home-actions .btn {
-  width: 100%;
-}
-.preview-box {
-  background: #f7f7f7;
-  border: 1px dashed #ccc;
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 14px;
-  white-space: pre-line;
-  color: #333;
-  margin-bottom: 16px;
-}
-.back-button {
-  margin-top: 24px;
-}
-/* Categorie menù (accordion) */
-.menu-category {
-  margin-bottom: 16px;
-}
-
-.category-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
-  background: #2d6a4f;
-  color: white;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.category-header .arrow {
-  font-size: 18px;
-}
-
-.category-content {
-  margin-top: 10px;
-}
 .modal-img {
   width: 100%;
   max-height: 180px;
   object-fit: cover;
-  border-radius: 10px;
-  margin: 10px 0;
+  border-radius: 12px;
+  margin: 12px 0;
 }
-.prenota-form input,
-.prenota-form textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+
+/* =========================
+   FORM PRENOTAZIONE / DOMICILIO
+   ========================= */
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  margin: 18px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+  color: #2d6a4f;
   margin-bottom: 12px;
 }
 
 .prenota-form label {
   display: block;
-  margin-bottom: 4px;
   font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .prenota-form textarea {
-  min-height: 80px;
-  resize: vertical;
+  min-height: 90px;
 }
-.card {
-  background: #fff;
+
+/* =========================
+   INFO & FOOTER
+   ========================= */
+
+.info {
+  margin-top: 28px;
+  font-size: 14px;
+  color: #6e6e73;
+  text-align: center;
+}
+
+.phone-link {
+  color: #1c1c1e;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.phone-link:active {
+  opacity: 0.6;
+}
+
+/* =========================
+   PREVIEW ORDINE
+   ========================= */
+
+.preview-box {
+  background: #f7f7f7;
+  border: 1px dashed #ccc;
   border-radius: 12px;
-  padding: 16px;
-  margin: 16px 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 14px;
+  font-size: 14px;
+  white-space: pre-line;
+  color: #333;
+  margin-bottom: 16px;
 }
-
-.card h3 {
-  margin-top: 0;
-  color: #2d6a4f;
-}
-
-.input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-
