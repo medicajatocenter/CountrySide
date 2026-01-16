@@ -63,7 +63,13 @@ h1, h2, h3 {
   border-radius: 10px;
   border: none;
   font-size: 16px;
-  cursor: center;
+  cursor: pointer;
+
+  /* 🔥 FIX ALLINEAMENTO */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .primary {
@@ -264,4 +270,5 @@ a.btn.secondary {
   font-size: 15px;
   opacity: 0.9;
 }
+
 
