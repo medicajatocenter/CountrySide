@@ -2,140 +2,153 @@ let carrello = {};
 let totale = 0;
 
 /* =========================
-   GESTIONE CARRELLO
+   INIZIALIZZAZIONE
    ========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const salvato = localStorage.getItem("carrello");
+  const tot = localStorage.getItem("totale");
 
+  if (salvato) carrello = JSON.parse(salvato);
+  if (tot) totale = parseFloat(tot);
+
+  aggiornaTotaleUI();
+  generaAnteprima();
+});
+
+/* =========================
+   AGGIUNTA PRODOTTO
+   ========================= */
 function addItem(id, nome, prezzo) {
   if (!carrello[id]) {
     carrello[id] = {
       id,
       nome,
       prezzo,
-      qty: 0,
+      qty: 1,
       note: []
     };
+  } else {
+    carrello[id].qty++;
   }
 
-  carrello[id].qty++;
   totale += prezzo;
-  aggiornaUI(id);
+  salva();
+  aggiornaTotaleUI();
+  generaAnteprima();
 }
 
+/* =========================
+   RIMOZIONE PRODOTTO
+   ========================= */
 function removeItem(id) {
-  if (carrello[id] && carrello[id].qty > 0) {
+  if (!carrello[id]) return;
+
+  totale -= carrello[id].prezzo;
+
+  if (carrello[id].qty > 1) {
     carrello[id].qty--;
-    totale -= carrello[id].prezzo;
-
-    if (carrello[id].qty === 0) {
-      delete carrello[id];
-    }
-
-    aggiornaUI(id);
+  } else {
+    delete carrello[id];
   }
+
+  if (totale < 0) totale = 0;
+
+  salva();
+  aggiornaTotaleUI();
+  generaAnteprima();
 }
 
-function aggiornaUI(id) {
-  const qtyEl = document.getElementById(`qty-${id}`);
-  if (qtyEl) {
-    qtyEl.innerText = carrello[id] ? carrello[id].qty : 0;
-  }
+/* =========================
+   SALVATAGGIO
+   ========================= */
+function salva() {
+  localStorage.setItem("carrello", JSON.stringify(carrello));
+  localStorage.setItem("totale", totale.toFixed(2));
+}
 
+/* =========================
+   UI TOTALE
+   ========================= */
+function aggiornaTotaleUI() {
   const totaleEl = document.getElementById("totale");
   if (totaleEl) {
-    totaleEl.innerText = totale.toFixed(2);
+    totaleEl.textContent = totale.toFixed(2);
   }
 }
 
+/* =========================
+   VAI AL CARRELLO
+   ========================= */
 function vaiCarrello() {
   if (totale === 0) {
     alert("Seleziona almeno un prodotto");
     return;
   }
-
-  localStorage.setItem("carrello", JSON.stringify(carrello));
-  localStorage.setItem("totale", totale.toFixed(2));
-
+  salva();
   window.location.href = "carrello.html";
 }
 
 /* =========================
    ANTEPRIMA ORDINE
    ========================= */
-
 function generaAnteprima() {
   const box = document.getElementById("anteprima-messaggio");
   if (!box) return;
 
-  const carrelloSalvato = JSON.parse(localStorage.getItem("carrello"));
-  const totaleSalvato = parseFloat(localStorage.getItem("totale") || 0);
-
-  const mode = localStorage.getItem("ordine_mode"); // domicilio | tavolo
-  const tavolo = localStorage.getItem("tavolo");
-  const commensali = parseInt(localStorage.getItem("commensali") || 0);
-
-  if (!carrelloSalvato || Object.keys(carrelloSalvato).length === 0) {
-    box.textContent = "Nessun prodotto nel carrello.";
+  if (Object.keys(carrello).length === 0) {
+    box.textContent = "🛒 Carrello vuoto";
     return;
   }
 
-  let testo = "🍔 ORDINE COUNTRY SIDE\n";
+  const mode = localStorage.getItem("ordine_mode");
+  const tavolo = localStorage.getItem("tavolo");
+  const commensali = parseInt(localStorage.getItem("commensali") || 0);
 
-  /* HEADER DINAMICO */
+  let testo = "🍔 ORDINE COUNTRY SIDE\n\n";
+
   if (mode === "tavolo") {
     testo += `🍽️ Tavolo ${tavolo} – ${commensali} coperti\n\n`;
   } else {
     testo += "🏠 Ordine a domicilio / asporto\n\n";
   }
 
-  /* PRODOTTI */
-  Object.values(carrelloSalvato).forEach(item => {
+  Object.values(carrello).forEach(item => {
     testo += `• ${item.nome} x${item.qty}\n`;
-
-    if (item.note && item.note.length > 0) {
+    if (item.note?.length) {
       item.note.forEach(n => {
         testo += `   - ${n}\n`;
       });
     }
   });
 
-  /* COPERTO SOLO SE TAVOLO */
   let coperto = 0;
   if (mode === "tavolo" && commensali > 0) {
     coperto = commensali * 2;
     testo += `\nCoperto (${commensali} x €2): €${coperto.toFixed(2)}\n`;
   }
 
-  const totaleFinale = (totaleSalvato + coperto).toFixed(2);
-  testo += `\nTotale: €${totaleFinale}`;
-
+  testo += `\nTotale: €${(totale + coperto).toFixed(2)}`;
   box.textContent = testo;
 }
 
 /* =========================
-   INVIO WHATSAPP
+   INVIO WHATSAPP + RESET
    ========================= */
-
 function inviaWhatsApp() {
+  generaAnteprima();
+
   const box = document.getElementById("anteprima-messaggio");
-  if (!box || !box.textContent) {
-    alert("Errore nella generazione dell’ordine");
-    return;
-  }
+  if (!box || !box.textContent) return;
 
-  const numero = "393314794226"; // senza +
-  const messaggio = box.textContent;
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(messaggio)}`;
-
+  const numero = "393314794226";
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(box.textContent)}`;
   window.open(url, "_blank");
 
+  // RESET COMPLETO
+  carrello = {};
+  totale = 0;
+  localStorage.clear();
+
   const conferma = document.getElementById("ordine-inviato");
-  if (conferma) {
-    conferma.style.display = "flex";
-  }
+  if (conferma) conferma.style.display = "block";
 }
-
-/* =========================
-   AVVIO
-   ========================= */
-
-document.addEventListener("DOMContentLoaded", generaAnteprima);
