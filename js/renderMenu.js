@@ -47,9 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       header.querySelector(".arrow").textContent = open ? "▸" : "▾";
     });
 
-    /* =========================
-       PRODOTTI
-       ========================= */
+    /* PRODOTTI */
     if (!categoria.items || categoria.items.length === 0) {
       content.innerHTML = `
         <div class="menu-item">
@@ -61,16 +59,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("div");
         card.className = "menu-item";
 
-        /* INGREDIENTI PREVIEW */
-        let ingredientiHtml = "";
+        /* =========================
+           INGREDIENTI (PREVIEW)
+           ========================= */
+        let ingredienti = [];
+
+        // 1️⃣ ingredienti.js (se esiste)
         if (window.INGREDIENTI && INGREDIENTI[item.id]) {
-          ingredientiHtml = `
-            <div class="ingredienti">
-              ${INGREDIENTI[item.id].join(", ")}
-            </div>
-          `;
+          ingredienti = INGREDIENTI[item.id];
+        }
+        // 2️⃣ fallback su composizione standard
+        else if (
+          window.INGREDIENTI_COMPOSIZIONE &&
+          INGREDIENTI_COMPOSIZIONE[item.id]?.standard
+        ) {
+          ingredienti = INGREDIENTI_COMPOSIZIONE[item.id].standard;
         }
 
+        const ingredientiHtml = ingredienti.length
+          ? `<div class="ingredienti">${ingredienti.join(", ")}</div>`
+          : "";
+
+        /* CARD HTML */
         card.innerHTML = `
           <div class="menu-row">
             <div class="menu-info">
@@ -84,23 +94,19 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         /* =========================
-           BOTTONE AGGIUNGI (FIX)
+           BOTTONE AGGIUNGI
            ========================= */
         const btn = document.createElement("button");
         btn.className = "add-btn";
         btn.textContent = "Aggiungi";
 
         btn.addEventListener("click", () => {
-          const haComposizione =
-            typeof INGREDIENTI_COMPOSIZIONE !== "undefined" &&
-            INGREDIENTI_COMPOSIZIONE[item.id];
-
           gestisciAggiunta(
             item.id,
             item.nome,
             item.prezzo,
-            !!haComposizione,
-            haComposizione
+            item.composizione === true,
+            item.composizione === true
               ? {
                   attivo: true,
                   nome: "Menu + patatine e bibita (+2,50€)",
