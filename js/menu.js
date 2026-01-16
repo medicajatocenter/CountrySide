@@ -102,7 +102,7 @@ const MENU = {
     id: "piatti_baby",
     nome: "Piatti Baby",
     items: [
-      { id: "baby_piatto_pollo_hamburger", nome: "Piatto baby (pollo panato o hamburger + patatine)", prezzo: 6.00, composizione: false, menuPlus: { attivo: true, prezzo: 2.50, nome: "Menu + patatine e bibita (+€2,50)" } },
+      { id: "baby_piatto_pollo_hamburger", nome: "Piatto baby (pollo panato o hamburger + patatine)", prezzo: 6.00, composizione: false },
       { id: "baby_panino_pollo_hamburger", nome: "Panino baby (pollo panato o hamburger)", prezzo: 3.50, composizione: false },
       { id: "baby_toast_prosciutto_mozzarella", nome: "Toast baby prosciutto e mozzarella", prezzo: 3.00, composizione: false },
       { id: "baby_panino_patatine", nome: "Panino baby con patatine", prezzo: 2.50, composizione: false }
@@ -141,5 +141,6 @@ const MENU = {
   }
 
 };
+
 
 
