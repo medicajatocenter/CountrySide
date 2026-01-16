@@ -18,6 +18,7 @@ function gestisciAggiunta(id, nome, prezzo, composizione, menuPlus = null) {
    ========================= */
 function apriComposizione() {
   const dati = INGREDIENTI_COMPOSIZIONE[prodottoInComposizione.id];
+
   if (!dati) {
     addItem(
       prodottoInComposizione.id,
@@ -58,6 +59,7 @@ function apriComposizione() {
     });
   }
 
+  /* ===== MENU PLUS + BIBITA ===== */
   if (prodottoInComposizione.menuPlus?.attivo) {
     html += `
       <hr>
@@ -65,11 +67,21 @@ function apriComposizione() {
         <input type="checkbox" id="menuPlusCheck">
         ${prodottoInComposizione.menuPlus.nome}
       </label>
+
+      <div id="bibiteBox" style="display:none; margin-top:10px;">
+        <p><strong>Scegli la bibita</strong></p>
+        ${MENU_BIBITE.map(b => `
+          <label>
+            <input type="radio" name="bibita" value="${b}">
+            ${b}
+          </label><br>
+        `).join("")}
+      </div>
     `;
   }
 
   html += `
-        <br><br>
+        <br>
         <button class="btn primary" id="btnConferma">Aggiungi</button>
         <button class="btn secondary" onclick="chiudiComposizione()">Annulla</button>
       </div>
@@ -78,13 +90,22 @@ function apriComposizione() {
 
   document.body.insertAdjacentHTML("beforeend", html);
 
-  // 🔥 bind sicuro
-  document.getElementById("btnConferma")
+  /* attiva scelta bibita */
+  const menuCheck = document.getElementById("menuPlusCheck");
+  if (menuCheck) {
+    menuCheck.addEventListener("change", () => {
+      document.getElementById("bibiteBox").style.display =
+        menuCheck.checked ? "block" : "none";
+    });
+  }
+
+  document
+    .getElementById("btnConferma")
     .addEventListener("click", confermaComposizione);
 }
 
 /* =========================
-   CONFERMA
+   CONFERMA COMPOSIZIONE
    ========================= */
 function confermaComposizione() {
   const modal = document.querySelector(".modal");
@@ -103,12 +124,19 @@ function confermaComposizione() {
     }
   });
 
+  /* MENU + BIBITA */
   if (document.getElementById("menuPlusCheck")?.checked) {
+    const bibita = modal.querySelector("input[name='bibita']:checked")?.value;
+
+    if (!bibita) {
+      alert("Seleziona una bibita per il menu");
+      return;
+    }
+
     extraPrezzo += prodottoInComposizione.menuPlus.prezzo;
-    note.push("Menu: patatine + bibita");
+    note.push(`Menu con bibita: ${bibita}`);
   }
 
-  // 🔥 ID VARIANTE UNIVOCO
   const variantId = prodottoInComposizione.id + "_" + Date.now();
 
   addItem(
@@ -117,14 +145,13 @@ function confermaComposizione() {
     prodottoInComposizione.prezzo + extraPrezzo
   );
 
-  // salva note
   carrello[variantId].note = note;
 
   chiudiComposizione();
 }
 
 /* =========================
-   CHIUSURA
+   CHIUSURA MODAL
    ========================= */
 function chiudiComposizione() {
   document.querySelector(".modal")?.remove();
