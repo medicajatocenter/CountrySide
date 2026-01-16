@@ -15,10 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   generaAnteprima();
 });
 
-/* =========================
-   AGGIUNTA PRODOTTO
-   ========================= */
 function addItem(id, nome, prezzo) {
+
   if (!carrello[id]) {
     carrello[id] = {
       id,
@@ -28,25 +26,29 @@ function addItem(id, nome, prezzo) {
       note: []
     };
   } else {
-    carrello[id].qty++;
+    carrello[id].qty += 1;
   }
 
   totale += prezzo;
+
   salva();
   aggiornaTotaleUI();
+
+  if (typeof renderCarrello === "function") {
+    renderCarrello();
+  }
+
   generaAnteprima();
 }
 
-/* =========================
-   RIMOZIONE PRODOTTO
-   ========================= */
 function removeItem(id) {
+
   if (!carrello[id]) return;
 
   totale -= carrello[id].prezzo;
 
   if (carrello[id].qty > 1) {
-    carrello[id].qty--;
+    carrello[id].qty -= 1;
   } else {
     delete carrello[id];
   }
@@ -55,6 +57,11 @@ function removeItem(id) {
 
   salva();
   aggiornaTotaleUI();
+
+  if (typeof renderCarrello === "function") {
+    renderCarrello();
+  }
+
   generaAnteprima();
 }
 
@@ -152,3 +159,4 @@ function inviaWhatsApp() {
   const conferma = document.getElementById("ordine-inviato");
   if (conferma) conferma.style.display = "block";
 }
+
