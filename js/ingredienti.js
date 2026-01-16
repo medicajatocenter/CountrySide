@@ -22,6 +22,24 @@ const INGREDIENTI = {
     "Salsiccia",
     "Salsa rosa"
   ],
+  /*======================
+     MENU BABY
+     =====================
+     Piatto_baby: [
+     "Piatto con scleta",
+     "Patatine"
+     ],
+     Panino_baby: [
+     "Panino con scelta",
+     "Patatine"
+     ],
+     Toast_baby: [
+     "Prosciutto",
+     "Mozzarella"
+     ],
+     Panino_baby_con_patatine: [
+     "Patatine"
+     ],
 
   /* =====================
      BURGER
@@ -273,3 +291,4 @@ const INGREDIENTI = {
     "Piadina o panino",
     ]
 };
+
