@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrapper = document.createElement("div");
     wrapper.className = "menu-category";
 
-    /* HEADER */
+    /* HEADER CATEGORIA */
     const header = document.createElement("div");
     header.className = "category-header";
     header.innerHTML = `
@@ -47,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
       header.querySelector(".arrow").textContent = open ? "▸" : "▾";
     });
 
-    /* PRODOTTI */
+    /* =========================
+       PRODOTTI
+       ========================= */
     if (!categoria.items || categoria.items.length === 0) {
       content.innerHTML = `
         <div class="menu-item">
@@ -59,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("div");
         card.className = "menu-item";
 
+        /* INGREDIENTI PREVIEW */
         let ingredientiHtml = "";
         if (window.INGREDIENTI && INGREDIENTI[item.id]) {
           ingredientiHtml = `
@@ -80,17 +83,24 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
 
+        /* =========================
+           BOTTONE AGGIUNGI (FIX)
+           ========================= */
         const btn = document.createElement("button");
         btn.className = "add-btn";
         btn.textContent = "Aggiungi";
 
         btn.addEventListener("click", () => {
+          const haComposizione =
+            typeof INGREDIENTI_COMPOSIZIONE !== "undefined" &&
+            INGREDIENTI_COMPOSIZIONE[item.id];
+
           gestisciAggiunta(
             item.id,
             item.nome,
             item.prezzo,
-            item.composizione === true,
-            item.composizione === true
+            !!haComposizione,
+            haComposizione
               ? {
                   attivo: true,
                   nome: "Menu + patatine e bibita (+2,50€)",
