@@ -169,7 +169,7 @@ h1, h2, h3 {
 }
 
 /* =========================
-   MODAL INGREDIENTI
+   MODAL COMPOSIZIONE (SAFE MOBILE)
    ========================= */
 
 .modal {
@@ -179,32 +179,48 @@ h1, h2, h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 9999;
+
+  /* blocca scroll sotto */
+  overflow: hidden;
 }
 
 .modal-content {
-  background: white;
+  background: #ffffff;
+  width: 92%;
+  max-width: 420px;
+
+  /* 🔥 NON uscire dallo schermo */
+  max-height: 90vh;
+
+  /* 🔥 scroll interno */
+  overflow-y: auto;
+
+  border-radius: 12px;
   padding: 16px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 380px;
+  box-sizing: border-box;
 }
 
-.modal-content button {
+/* immagini prodotto */
+.modal-img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+/* checkbox più leggibili */
+.modal-content label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* bottoni fissi in fondo */
+.modal-content .btn {
   width: 100%;
   margin-top: 10px;
-}
-
-/* =========================
-   PREVIEW ORDINE
-   ========================= */
-
-.preview-box {
-  background: #f1f1f1;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  white-space: pre-line;
 }
 
 /* =========================
@@ -270,5 +286,6 @@ a.btn.secondary {
   font-size: 15px;
   opacity: 0.9;
 }
+
 
 
