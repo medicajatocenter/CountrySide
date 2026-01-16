@@ -113,6 +113,8 @@ const INGREDIENTI_COMPOSIZIONE = {
      HOT DOG
      ===================== */
   hotdog_classico: {
+     nome: "Hot Dog Classico",
+        img: "assets/prodotti/Burger_classico.jpg",
     standard: ["Wurstel", "Ketchup", "Senape"],
     extra: [
       { nome: "Cheddar", prezzo: 0.50 }
@@ -213,4 +215,5 @@ const INGREDIENTI_COMPOSIZIONE = {
   }
 
 };
+
 
