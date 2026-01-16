@@ -37,6 +37,7 @@ h1, h2, h3 {
   font-family: 'Rye', cursive;
   text-align: center;
   color: #2d6a4f;
+  margin-bottom: 16px;
 }
 
 .subtitle {
@@ -45,15 +46,11 @@ h1, h2, h3 {
   margin-bottom: 20px;
 }
 
-/* layout pulsanti home */
+/* pulsanti home */
 .home-actions {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.home-actions .btn {
-  margin-bottom: 0;
 }
 
 /* =========================
@@ -77,6 +74,16 @@ h1, h2, h3 {
 .secondary {
   background: #ffffff;
   border: 1px solid #ccc;
+  color: #222;
+}
+
+.add-btn {
+  background: #2d6a4f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* =========================
@@ -142,15 +149,6 @@ h1, h2, h3 {
   display: block;
   margin-bottom: 6px;
   font-weight: bold;
-}
-
-.add-btn {
-  background: #2d6a4f;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
 /* =========================
@@ -219,37 +217,38 @@ h1, h2, h3 {
   color: #222;
   font-weight: bold;
 }
+
 /* =========================
-   PRENOTAZIONE – UI REFINEMENT
+   PRENOTAZIONE (CHIARO E COERENTE)
    ========================= */
 
 .prenota-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
-/* Label più leggibili */
 .prenota-form label {
   font-size: 14px;
-  color: #cfcfcf;
-  margin-bottom: 4px;
+  color: #333;
 }
 
-/* Input uniformi */
 .prenota-form input,
 .prenota-form textarea {
-  background: #2a2a2a;
-  color: #ffffff;
-  border: 1px solid #444;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  background: white;
+  color: #222;
 }
 
-.prenota-form input::placeholder,
-.prenota-form textarea::placeholder {
-  color: #9a9a9a;
+.prenota-form textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-/* Data + Ora su stessa riga */
 .prenota-row {
   display: flex;
   gap: 10px;
@@ -259,29 +258,9 @@ h1, h2, h3 {
   flex: 1;
 }
 
-/* Bottone WhatsApp più elegante */
-.btn.primary {
-  margin-top: 18px;
-  font-size: 18px;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(230,57,70,0.35);
-}
-
-/* Bottone torna home meno invadente */
 .back-button,
 a.btn.secondary {
   margin-top: 10px;
   font-size: 15px;
-  opacity: 0.85;
-}
-
-/* Titolo */
-.title-western {
-  margin-bottom: 22px;
-}
-
-/* Card più staccata dallo sfondo */
-.card {
-  background: #1f1f1f;
-  border: 1px solid #2e2e2e;
+  opacity: 0.9;
 }
