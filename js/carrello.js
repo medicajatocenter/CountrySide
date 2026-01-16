@@ -5,6 +5,7 @@ let totale = 0;
    AGGIUNTA PRODOTTO
    ========================= */
 function addItem(id, nome, prezzo) {
+function addItem(id, nome, prezzo) {
 
   if (!carrello[id]) {
     carrello[id] = {
@@ -20,12 +21,20 @@ function addItem(id, nome, prezzo) {
 
   totale += prezzo;
 
-  // salva
+  // 🔥 aggiorna totale nel menu
+  const totaleSpan = document.getElementById("totale");
+  if (totaleSpan) {
+    totaleSpan.textContent = totale.toFixed(2);
+  }
+
+  // 🔥 persistenza
   localStorage.setItem("carrello", JSON.stringify(carrello));
   localStorage.setItem("totale", totale.toFixed(2));
 
-  // aggiorna UI
-  generaAnteprima();
+  // 🔥 aggiorna anteprima (se presente)
+  if (typeof generaAnteprima === "function") {
+    generaAnteprima();
+  }
 }
 
 /* =========================
@@ -95,3 +104,4 @@ function inviaWhatsApp() {
 
   generaAnteprima();
 }
+
