@@ -2,21 +2,6 @@ let carrello = {};
 let totale = 0;
 
 /* =========================
-   UTIL
-   ========================= */
-function salvaCarrello() {
-  localStorage.setItem("carrello", JSON.stringify(carrello));
-  localStorage.setItem("totale", totale.toFixed(2));
-}
-
-function aggiornaTotaleUI() {
-  const totaleSpan = document.getElementById("totale");
-  if (totaleSpan) {
-    totaleSpan.textContent = totale.toFixed(2);
-  }
-}
-
-/* =========================
    AGGIUNTA PRODOTTO
    ========================= */
 function addItem(id, nome, prezzo) {
@@ -37,25 +22,37 @@ function addItem(id, nome, prezzo) {
 
   salvaCarrello();
   aggiornaTotaleUI();
-
-  if (typeof generaAnteprima === "function") {
-    generaAnteprima();
-  }
+  generaAnteprima();
 }
-/* =========================
-
 
 /* =========================
-   CONTINUA → CARRELLO
+   RIMOZIONE PRODOTTO
    ========================= */
-function vaiCarrello() {
-  if (Object.keys(carrello).length === 0) {
-    alert("Il carrello è vuoto");
-    return;
+function removeItem(id) {
+
+  if (!carrello[id]) return;
+
+  totale -= carrello[id].prezzo;
+
+  if (carrello[id].qty > 1) {
+    carrello[id].qty -= 1;
+  } else {
+    delete carrello[id];
   }
+
+  if (totale < 0) totale = 0;
 
   salvaCarrello();
-  window.location.href = "carrello.html";
+  aggiornaTotaleUI();
+  generaAnteprima();
+}
+
+/* =========================
+   SALVATAGGIO
+   ========================= */
+function salvaCarrello() {
+  localStorage.setItem("carrello", JSON.stringify(carrello));
+  localStorage.setItem("totale", totale.toFixed(2));
 }
 
 /* =========================
@@ -70,14 +67,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if (tot) totale = parseFloat(tot);
 
   aggiornaTotaleUI();
-
-  if (typeof generaAnteprima === "function") {
-    generaAnteprima();
-  }
+  generaAnteprima();
 });
 
 /* =========================
-   ANTEPRIMA ORDINE
+   TOTALE UI
+   ========================= */
+function aggiornaTotaleUI() {
+  const totaleSpan = document.getElementById("totale");
+  if (totaleSpan) {
+    totaleSpan.textContent = totale.toFixed(2);
+  }
+}
+
+/* =========================
+   ANTEPRIMA CARRELLO
    ========================= */
 function generaAnteprima() {
 
@@ -85,24 +89,44 @@ function generaAnteprima() {
   if (!box) return;
 
   if (Object.keys(carrello).length === 0) {
-    box.textContent = "🛒 Carrello vuoto";
+    box.innerHTML = "🛒 Carrello vuoto";
     return;
   }
 
-  let testo = "🍔 ORDINE COUNTRY SIDE\n\n";
+  let html = `<strong>🍔 ORDINE COUNTRY SIDE</strong><br><br>`;
 
   Object.values(carrello).forEach(item => {
-    testo += `• ${item.nome} x${item.qty}\n`;
+    html += `
+      <div style="margin-bottom:8px">
+        ${item.nome} × ${item.qty}
+        <button onclick="removeItem('${item.id}')">➖</button>
+        <button onclick="addItem('${item.id}', '${item.nome}', ${item.prezzo})">➕</button>
+      </div>
+    `;
 
-    if (item.note && item.note.length > 0) {
+    if (item.note?.length) {
       item.note.forEach(n => {
-        testo += `   - ${n}\n`;
+        html += `<div style="font-size:12px;color:#666">– ${n}</div>`;
       });
     }
   });
 
-  testo += `\nTotale: €${totale.toFixed(2)}`;
-  box.textContent = testo;
+  html += `<br><strong>Totale: €${totale.toFixed(2)}</strong>`;
+
+  box.innerHTML = html;
+}
+
+/* =========================
+   CONTINUA → CARRELLO
+   ========================= */
+function vaiCarrello() {
+
+  if (Object.keys(carrello).length === 0) {
+    alert("Il carrello è vuoto");
+    return;
+  }
+
+  window.location.href = "carrello.html";
 }
 
 /* =========================
@@ -110,13 +134,12 @@ function generaAnteprima() {
    ========================= */
 function inviaWhatsApp() {
 
-  generaAnteprima();
-
   const box = document.getElementById("anteprima-messaggio");
   if (!box || !box.textContent) return;
 
   const numero = "393314794226";
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(box.textContent)}`;
+
   window.open(url, "_blank");
 
   carrello = {};
@@ -128,5 +151,3 @@ function inviaWhatsApp() {
   aggiornaTotaleUI();
   generaAnteprima();
 }
-
-
