@@ -5,8 +5,6 @@ let totale = 0;
    AGGIUNTA PRODOTTO
    ========================= */
 function addItem(id, nome, prezzo) {
-function addItem(id, nome, prezzo) {
-
   if (!carrello[id]) {
     carrello[id] = {
       id,
@@ -104,4 +102,5 @@ function inviaWhatsApp() {
 
   generaAnteprima();
 }
+
 
