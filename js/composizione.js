@@ -4,7 +4,9 @@ let prodottoInComposizione = null;
    AVVIO COMPOSIZIONE
    ========================= */
 function gestisciAggiunta(id, nome, prezzo, composizione, menuPlus = null) {
-  if (!composizione) {
+
+  // 🔥 controllo reale: esiste in INGREDIENTI_COMPOSIZIONE?
+  if (!composizione || !window.INGREDIENTI_COMPOSIZIONE || !INGREDIENTI_COMPOSIZIONE[id]) {
     addItem(id, nome, prezzo);
     return;
   }
@@ -17,16 +19,9 @@ function gestisciAggiunta(id, nome, prezzo, composizione, menuPlus = null) {
    MODAL COMPOSIZIONE
    ========================= */
 function apriComposizione() {
-  const dati = INGREDIENTI_COMPOSIZIONE[prodottoInComposizione.id];
 
-  if (!dati) {
-    addItem(
-      prodottoInComposizione.id,
-      prodottoInComposizione.nome,
-      prodottoInComposizione.prezzo
-    );
-    return;
-  }
+  const dati = INGREDIENTI_COMPOSIZIONE[prodottoInComposizione.id];
+  if (!dati) return;
 
   let html = `
     <div class="modal">
@@ -53,13 +48,12 @@ function apriComposizione() {
       html += `
         <label>
           <input type="checkbox" data-extra="${extra.nome}" data-prezzo="${extra.prezzo}">
-          ${extra.nome} (+€${extra.prezzo})
+          ${extra.nome} (+€${extra.prezzo.toFixed(2)})
         </label><br>
       `;
     });
   }
 
-  /* ===== MENU PLUS + BIBITA ===== */
   if (prodottoInComposizione.menuPlus?.attivo) {
     html += `
       <hr>
@@ -67,47 +61,31 @@ function apriComposizione() {
         <input type="checkbox" id="menuPlusCheck">
         ${prodottoInComposizione.menuPlus.nome}
       </label>
-
-      <div id="bibiteBox" style="display:none; margin-top:10px;">
-        <p><strong>Scegli la bibita</strong></p>
-        ${MENU_BIBITE.map(b => `
-          <label>
-            <input type="radio" name="bibita" value="${b}">
-            ${b}
-          </label><br>
-        `).join("")}
-      </div>
     `;
   }
 
   html += `
         <br>
         <button class="btn primary" id="btnConferma">Aggiungi</button>
-        <button class="btn secondary" onclick="chiudiComposizione()">Annulla</button>
+        <button class="btn secondary" id="btnAnnulla">Annulla</button>
       </div>
     </div>
   `;
 
   document.body.insertAdjacentHTML("beforeend", html);
 
-  /* attiva scelta bibita */
-  const menuCheck = document.getElementById("menuPlusCheck");
-  if (menuCheck) {
-    menuCheck.addEventListener("change", () => {
-      document.getElementById("bibiteBox").style.display =
-        menuCheck.checked ? "block" : "none";
-    });
-  }
-
-  document
-    .getElementById("btnConferma")
+  document.getElementById("btnConferma")
     .addEventListener("click", confermaComposizione);
+
+  document.getElementById("btnAnnulla")
+    .addEventListener("click", chiudiComposizione);
 }
 
 /* =========================
-   CONFERMA COMPOSIZIONE
+   CONFERMA
    ========================= */
 function confermaComposizione() {
+
   const modal = document.querySelector(".modal");
   if (!modal || !prodottoInComposizione) return;
 
@@ -124,17 +102,9 @@ function confermaComposizione() {
     }
   });
 
-  /* MENU + BIBITA */
   if (document.getElementById("menuPlusCheck")?.checked) {
-    const bibita = modal.querySelector("input[name='bibita']:checked")?.value;
-
-    if (!bibita) {
-      alert("Seleziona una bibita per il menu");
-      return;
-    }
-
     extraPrezzo += prodottoInComposizione.menuPlus.prezzo;
-    note.push(`Menu con bibita: ${bibita}`);
+    note.push("Menu: patatine + bibita");
   }
 
   const variantId = prodottoInComposizione.id + "_" + Date.now();
@@ -151,7 +121,7 @@ function confermaComposizione() {
 }
 
 /* =========================
-   CHIUSURA MODAL
+   CHIUSURA
    ========================= */
 function chiudiComposizione() {
   document.querySelector(".modal")?.remove();
