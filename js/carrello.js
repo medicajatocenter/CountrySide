@@ -1,11 +1,41 @@
+/* =========================
+   STATO CARRELLO
+   ========================= */
 let carrello = {};
 let totale = 0;
+
+/* =========================
+   AGGIUNTA PRODOTTO (🔥 MANCAVA)
+   ========================= */
+function addItem(id, nome, prezzo) {
+  if (!carrello[id]) {
+    carrello[id] = {
+      id,
+      nome,
+      prezzo,
+      qty: 0,
+      note: []
+    };
+  }
+
+  carrello[id].qty++;
+  totale += prezzo;
+
+  salvaCarrello();
+}
+
+/* =========================
+   SALVATAGGIO
+   ========================= */
+function salvaCarrello() {
+  localStorage.setItem("carrello", JSON.stringify(carrello));
+  localStorage.setItem("totale", totale.toFixed(2));
+}
 
 /* =========================
    CARICAMENTO INIZIALE
    ========================= */
 document.addEventListener("DOMContentLoaded", () => {
-
   const salvato = localStorage.getItem("carrello");
   const tot = localStorage.getItem("totale");
 
@@ -26,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
    ANTEPRIMA ORDINE
    ========================= */
 function generaAnteprima() {
-
   const box = document.getElementById("anteprima-messaggio");
   if (!box) return;
 
@@ -41,7 +70,6 @@ function generaAnteprima() {
 
   let testo = "🍔 ORDINE COUNTRY SIDE\n\n";
 
-  /* ===== HEADER ===== */
   if (mode === "tavolo") {
     testo += `🍽️ Tavolo ${tavolo} – ${commensali} coperti\n\n`;
   } else {
@@ -56,27 +84,20 @@ function generaAnteprima() {
     testo += "\n";
   }
 
-  /* ===== PRODOTTI ===== */
   Object.values(carrello).forEach(item => {
     testo += `• ${item.nome} x${item.qty}\n`;
-
-    if (item.note && item.note.length > 0) {
-      item.note.forEach(n => {
-        testo += `   - ${n}\n`;
-      });
+    if (item.note?.length) {
+      item.note.forEach(n => testo += `   - ${n}\n`);
     }
   });
 
-  /* ===== COPERTO ===== */
   let coperto = 0;
   if (mode === "tavolo" && commensali > 0) {
     coperto = commensali * 2;
     testo += `\nCoperto (${commensali} x €2): €${coperto.toFixed(2)}\n`;
   }
 
-  const totaleFinale = (totale + coperto).toFixed(2);
-  testo += `\nTotale: €${totaleFinale}`;
-
+  testo += `\nTotale: €${(totale + coperto).toFixed(2)}`;
   box.textContent = testo;
 }
 
@@ -84,33 +105,21 @@ function generaAnteprima() {
    INVIO WHATSAPP + RESET
    ========================= */
 function inviaWhatsApp() {
-
   generaAnteprima();
 
   const box = document.getElementById("anteprima-messaggio");
-  if (!box || !box.textContent) {
+  if (!box?.textContent) {
     alert("Errore nella generazione dell’ordine");
     return;
   }
 
-  const numero = "393314794226"; // tuo numero
-  const messaggio = box.textContent;
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(messaggio)}`;
-
+  const numero = "393314794226";
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(box.textContent)}`;
   window.open(url, "_blank");
 
-  /* ===== RESET TOTALE ===== */
   carrello = {};
   totale = 0;
+  localStorage.clear();
 
-  localStorage.removeItem("carrello");
-  localStorage.removeItem("totale");
-  localStorage.removeItem("tavolo");
-  localStorage.removeItem("commensali");
-
-  const conferma = document.getElementById("ordine-inviato");
-  if (conferma) conferma.style.display = "block";
-
-  document.getElementById("anteprima-messaggio").textContent =
-    "✅ Ordine inviato correttamente";
+  box.textContent = "✅ Ordine inviato correttamente";
 }
