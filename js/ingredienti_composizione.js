@@ -210,17 +210,9 @@ const INGREDIENTI_COMPOSIZIONE = {
     extra: [
       { nome: "Extra pollo", prezzo: 2.00 }
     ]
-  },
-/* ======================
-     PIATTO BABY
-     ===================*/
-   Panino_baby: {
-    standard: ["Scegli tra le opzioni disponibili"],
-    extra: [
-      { nome: "Pollo Panato", "Hamburger" prezzo: 0.00 }
-    ]
   }
      
 };
+
 
 
