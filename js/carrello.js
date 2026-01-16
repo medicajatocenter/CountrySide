@@ -43,30 +43,7 @@ function addItem(id, nome, prezzo) {
   }
 }
 /* =========================
-   RIMOZIONE PRODOTTO
-   ========================= */
-function removeItem(id) {
 
-  if (!carrello[id]) return;
-
-  totale -= carrello[id].prezzo;
-
-  if (carrello[id].qty > 1) {
-    carrello[id].qty -= 1;
-  } else {
-    delete carrello[id];
-  }
-
-  if (totale < 0) totale = 0;
-
-  // persistenza
-  localStorage.setItem("carrello", JSON.stringify(carrello));
-  localStorage.setItem("totale", totale.toFixed(2));
-
-  // UI
-  aggiornaTotaleUI();
-  generaAnteprima();
-}
 
 /* =========================
    CONTINUA → CARRELLO
@@ -151,4 +128,5 @@ function inviaWhatsApp() {
   aggiornaTotaleUI();
   generaAnteprima();
 }
+
 
