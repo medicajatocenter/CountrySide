@@ -2,9 +2,25 @@ let carrello = {};
 let totale = 0;
 
 /* =========================
+   UTIL
+   ========================= */
+function salvaCarrello() {
+  localStorage.setItem("carrello", JSON.stringify(carrello));
+  localStorage.setItem("totale", totale.toFixed(2));
+}
+
+function aggiornaTotaleUI() {
+  const totaleSpan = document.getElementById("totale");
+  if (totaleSpan) {
+    totaleSpan.textContent = totale.toFixed(2);
+  }
+}
+
+/* =========================
    AGGIUNTA PRODOTTO
    ========================= */
 function addItem(id, nome, prezzo) {
+
   if (!carrello[id]) {
     carrello[id] = {
       id,
@@ -19,20 +35,25 @@ function addItem(id, nome, prezzo) {
 
   totale += prezzo;
 
-  // 🔥 aggiorna totale nel menu
-  const totaleSpan = document.getElementById("totale");
-  if (totaleSpan) {
-    totaleSpan.textContent = totale.toFixed(2);
-  }
+  salvaCarrello();
+  aggiornaTotaleUI();
 
-  // 🔥 persistenza
-  localStorage.setItem("carrello", JSON.stringify(carrello));
-  localStorage.setItem("totale", totale.toFixed(2));
-
-  // 🔥 aggiorna anteprima (se presente)
   if (typeof generaAnteprima === "function") {
     generaAnteprima();
   }
+}
+
+/* =========================
+   CONTINUA → CARRELLO
+   ========================= */
+function vaiCarrello() {
+  if (Object.keys(carrello).length === 0) {
+    alert("Il carrello è vuoto");
+    return;
+  }
+
+  salvaCarrello();
+  window.location.href = "carrello.html";
 }
 
 /* =========================
@@ -46,7 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (salvato) carrello = JSON.parse(salvato);
   if (tot) totale = parseFloat(tot);
 
-  generaAnteprima();
+  aggiornaTotaleUI();
+
+  if (typeof generaAnteprima === "function") {
+    generaAnteprima();
+  }
 });
 
 /* =========================
@@ -67,7 +92,7 @@ function generaAnteprima() {
   Object.values(carrello).forEach(item => {
     testo += `• ${item.nome} x${item.qty}\n`;
 
-    if (item.note?.length) {
+    if (item.note && item.note.length > 0) {
       item.note.forEach(n => {
         testo += `   - ${n}\n`;
       });
@@ -75,7 +100,6 @@ function generaAnteprima() {
   });
 
   testo += `\nTotale: €${totale.toFixed(2)}`;
-
   box.textContent = testo;
 }
 
@@ -87,11 +111,10 @@ function inviaWhatsApp() {
   generaAnteprima();
 
   const box = document.getElementById("anteprima-messaggio");
-  if (!box.textContent) return;
+  if (!box || !box.textContent) return;
 
   const numero = "393314794226";
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(box.textContent)}`;
-
   window.open(url, "_blank");
 
   carrello = {};
@@ -100,7 +123,6 @@ function inviaWhatsApp() {
   localStorage.removeItem("carrello");
   localStorage.removeItem("totale");
 
+  aggiornaTotaleUI();
   generaAnteprima();
 }
-
-
