@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Menù – Country Side</title>
+
+  <!-- Font western -->
+  <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d6a4f">
+</head>
+
+<script>
+ 
+
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+
+
+
+  if (mode === "tavolo") {
+ 
+
+    localStorage.setItem("ordine_mode", "tavolo");
+    localStorage.removeItem("tavolo");
+    localStorage.removeItem("commensali");
+
+    const tavolo = prompt("Inserisci numero tavolo");
+    const commensali = prompt("Numero persone al tavolo");
+
+    alert("Tavolo: " + tavolo + " – Commensali: " + commensali);
+
+    localStorage.setItem("tavolo", tavolo);
+    localStorage.setItem("commensali", commensali);
+  } else {
+    
+    localStorage.setItem("ordine_mode", "domicilio");
+  }
+</script>
+
+<body>
+
+<div class="container">
+  <h2 class="title-western">🍔 Menù Country Side</h2>
+
+  <!-- INFO ORDINE (DOMICILIO / TAVOLO) -->
+  <div id="info-ordine" class="info-ordine"></div>
+
+  <!-- MENU DINAMICO -->
+  <div id="menu-container"></div>
+
+  <!-- CARRELLO -->
+  <div class="cart">
+    <p><strong>Totale: €<span id="totale">0.00</span></strong></p>
+    <button class="btn primary" onclick="vaiCarrello()">Continua 🛒</button>
+  </div>
+
+  <a href="index.html" class="btn secondary">⬅ Torna alla Home</a>
+</div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+  const fresh = params.get("fresh");
+
+  if (mode === "tavolo") {
+
+    localStorage.setItem("ordine_mode", "tavolo");
+
+    // 🔥 RESET SOLO SE ARRIVO DA HOME
+    if (fresh === "1") {
+      localStorage.removeItem("tavolo");
+      localStorage.removeItem("commensali");
+    }
+
+    // CHIEDI TAVOLO
+    if (!localStorage.getItem("tavolo")) {
+      const tavolo = prompt("Inserisci numero tavolo");
+      if (!tavolo) {
+        alert("Numero tavolo obbligatorio");
+        window.location.href = "index.html";
+        return;
+      }
+      localStorage.setItem("tavolo", tavolo);
+    }
+
+    // CHIEDI COMMENSALI
+    if (!localStorage.getItem("commensali")) {
+      const commensali = prompt("Numero persone al tavolo");
+      if (!commensali) {
+        alert("Numero persone obbligatorio");
+        window.location.href = "index.html";
+        return;
+      }
+      localStorage.setItem("commensali", commensali);
+    }
+
+  } else {
+    // DOMICILIO / ASPORTO
+    localStorage.setItem("ordine_mode", "domicilio");
+    localStorage.removeItem("tavolo");
+    localStorage.removeItem("commensali");
+  }
+</script>
+
+<!-- JS (ORDINE CORRETTO) -->
+<script src="js/menu.js"></script>
+<script src="js/ingredienti.js"></script>
+<script src="js/ingredienti_composizione.js"></script>
+<script src="js/menuPlusBibite.js"></script>
+<script src="js/carrello.js"></script>
+<script src="js/composizione.js"></script>
+<script src="js/renderMenu.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+<div id="banner-feedback" class="banner-feedback">
+  ✅ Prodotto aggiunto al carrello
+</div>
+</html>
