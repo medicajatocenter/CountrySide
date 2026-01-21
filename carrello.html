@@ -35,7 +35,7 @@
     </p>
   </div>
 
-  <!-- DATI CONSEGNA (SOLO DOMICILIO / ASPORTO) -->
+  <!-- DATI CONSEGNA -->
   <div id="box-domicilio" class="card" style="display:none;">
     <h3>📦 Dati consegna</h3>
 
@@ -77,7 +77,6 @@
 <!-- =========================
      SCRIPT PAGINA
      ========================= -->
-
 <script>
 /* =========================
    RENDER CARRELLO
@@ -86,55 +85,82 @@ function renderCarrello() {
   const box = document.getElementById("lista-carrello");
   box.innerHTML = "";
 
-  const carrelloSalvato = JSON.parse(localStorage.getItem("carrello"));
-  const totaleSalvato = parseFloat(localStorage.getItem("totale") || 0);
+  const carrello = JSON.parse(localStorage.getItem("carrello")) || {};
+  const totale = parseFloat(localStorage.getItem("totale") || 0);
 
-  if (!carrelloSalvato || Object.keys(carrelloSalvato).length === 0) {
+  if (Object.keys(carrello).length === 0) {
     box.innerHTML = "<p>Il carrello è vuoto.</p>";
+    document.getElementById("totale").innerText = "0.00";
     return;
   }
 
-  Object.values(carrelloSalvato).forEach(item => {
+  Object.values(carrello).forEach(item => {
     const div = document.createElement("div");
     div.className = "carrello-item";
 
     div.innerHTML = `
       <div class="carrello-header">
         <strong>${item.nome}</strong>
-        <span>x${item.qty} – €${(item.prezzo * item.qty).toFixed(2)}</span>
+
+        <div class="carrello-controls">
+          <button onclick="modificaQty('${item.id}', -1)">−</button>
+          <span>x${item.qty}</span>
+          <button onclick="modificaQty('${item.id}', 1)">+</button>
+        </div>
+
+        <span>€${(item.prezzo * item.qty).toFixed(2)}</span>
       </div>
     `;
 
     box.appendChild(div);
   });
 
-  document.getElementById("totale").innerText = totaleSalvato.toFixed(2);
+  document.getElementById("totale").innerText = totale.toFixed(2);
 }
 
 /* =========================
-   MOSTRA/NASCONDI DATI CONSEGNA ★
+   MODIFICA QUANTITÀ
+   ========================= */
+function modificaQty(id, delta) {
+  let carrello = JSON.parse(localStorage.getItem("carrello")) || {};
+  let totale = parseFloat(localStorage.getItem("totale") || 0);
+
+  if (!carrello[id]) return;
+
+  carrello[id].qty += delta;
+  totale += carrello[id].prezzo * delta;
+
+  if (carrello[id].qty <= 0) {
+    delete carrello[id];
+  }
+
+  if (totale < 0) totale = 0;
+
+  localStorage.setItem("carrello", JSON.stringify(carrello));
+  localStorage.setItem("totale", totale.toFixed(2));
+
+  renderCarrello();
+  generaAnteprima();
+}
+
+/* =========================
+   MOSTRA/NASCONDI DATI CONSEGNA
    ========================= */
 function gestisciBoxDomicilio() {
   const mode = localStorage.getItem("ordine_mode");
   const box = document.getElementById("box-domicilio");
-
   if (!box) return;
-
-  if (mode !== "tavolo") {
-    box.style.display = "block";
-  } else {
-    box.style.display = "none";
-  }
+  box.style.display = mode !== "tavolo" ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   renderCarrello();
-  gestisciBoxDomicilio(); // ★
+  gestisciBoxDomicilio();
   generaAnteprima();
 });
 </script>
 
-<!-- JS -->
+<!-- JS GLOBALI -->
 <script src="js/carrello.js"></script>
 <script src="js/app.js"></script>
 
