@@ -393,3 +393,46 @@ body.home-page .home-actions .btn {
   max-width: 280px;      /* centrati e proporzionati */
   text-align: center;
 }
+/* =========================
+   CREDITI APP – HOME
+   ========================= */
+
+body.home-page .app-credits {
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(90, 46, 20, 0.4);
+  text-align: center;
+  font-size: 13px;
+  color: #4a2a14;
+}
+
+body.home-page .credits-title {
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+body.home-page .credits-name {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+body.home-page .credits-contacts {
+  line-height: 1.4;
+}
+
+body.home-page .credits-contacts a {
+  color: #4a2a14;
+  text-decoration: none;
+}
+
+body.home-page .credits-contacts a:hover {
+  text-decoration: underline;
+}
+
+body.home-page .credits-footer {
+  margin-top: 8px;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
